@@ -1,4 +1,5 @@
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import { useState } from 'react';
@@ -9,6 +10,7 @@ export function BusinessCard({people}){
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [interests, setInterests] = useState([]);
+    const [interestInput, setInterestInput] = useState("");
     const [linkedin, setLinkedin] = useState("");
     const [twitter, setTwitter] = useState("");
     //update end
@@ -32,21 +34,21 @@ export function BusinessCard({people}){
                 {
                     editMode == person._id ? (
                         <div>
-                            <input type="text" defaultValue={person.name} onChange={(e)=>{
+                            <TextField fullWidth label="Name" margin="dense" defaultValue={person.name} onChange={(e)=>{
                                 setName(e.target.value);
                             }}/>
-                            <input type="text" defaultValue={person.description} onChange={(e)=>{
+                            <TextField fullWidth label="Description" defaultValue={person.description} margin="dense" onChange={(e)=>{
                                 setDescription(e.target.value);
                             }}/>
-                            <input type="text" defaultValue={person.interests} onChange={(e)=>{
+                            <TextField fullWidth label="Interests" defaultValue={person.interests} margin="dense" onChange={(e)=>{
                                 const str = e.target.value;
                                 const arr = str.split(", ")
-                                setInterests(arr);;
+                                setInterests(arr);
                             }}/>
-                            <input type="text" defaultValue={person.linkedin} onChange={(e)=>{
+                            <TextField fullWidth label="Linkedin URL" defaultValue={person.linkedin} margin="dense" onChange={(e)=>{
                                 setLinkedin(e.target.value);
                             }}/>
-                            <input type="text" defaultValue={person.twitter} onChange={(e)=>{
+                            <TextField fullWidth label="Twitter URL" defaultValue={person.twitter} margin="dense" onChange={(e)=>{
                                 setTwitter(e.target.value);
                             }}/>
                         </div>
