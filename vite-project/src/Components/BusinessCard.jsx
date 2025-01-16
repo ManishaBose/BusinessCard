@@ -5,6 +5,13 @@ import { useState } from 'react';
 
 export function BusinessCard({people}){
     const [editMode, setEditMode] = useState("");
+    //to update
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [interests, setInterests] = useState([]);
+    const [linkedin, setLinkedin] = useState("");
+    const [twitter, setTwitter] = useState("");
+    //update end
     return <Stack
     direction={{ xs: "column", sm: "row" }}
     spacing={4}
@@ -25,11 +32,23 @@ export function BusinessCard({people}){
                 {
                     editMode == person._id ? (
                         <div>
-                            <input type="text" defaultValue={person.name}/>
-                            <input type="text" defaultValue={person.description}/>
-                            <input type="text" defaultValue={person.interests}/>
-                            <input type="text" defaultValue={person.linkedin}/>
-                            <input type="text" defaultValue={person.twitter}/>
+                            <input type="text" defaultValue={person.name} onChange={(e)=>{
+                                setName(e.target.value);
+                            }}/>
+                            <input type="text" defaultValue={person.description} onChange={(e)=>{
+                                setDescription(e.target.value);
+                            }}/>
+                            <input type="text" defaultValue={person.interests} onChange={(e)=>{
+                                const str = e.target.value;
+                                const arr = str.split(", ")
+                                setInterests(arr);;
+                            }}/>
+                            <input type="text" defaultValue={person.linkedin} onChange={(e)=>{
+                                setLinkedin(e.target.value);
+                            }}/>
+                            <input type="text" defaultValue={person.twitter} onChange={(e)=>{
+                                setTwitter(e.target.value);
+                            }}/>
                         </div>
                     ):(
                         <div>
@@ -59,8 +78,28 @@ export function BusinessCard({people}){
                 {
                     editMode == person._id ?(
                         <div>
-                            <Button>Cancel</Button>
-                            <Button>Okay</Button>
+                            <Button onClick={()=>{
+                                setEditMode("");
+                            }}>Cancel</Button>
+                            <Button onClick={()=>{
+                                fetch("http://localhost:3000/",{
+                                    method: "PUT",
+                                    body: JSON.stringify({
+                                      id: person._id,
+                                      name,
+                                      description,
+                                      interests,
+                                      linkedin,
+                                      twitter
+                                    }), 
+                                    headers: {
+                                      "Content-type":"application/json"
+                                    }
+                                  }).then(async function (res){
+                                    const json = await res.json();
+                                    setEditMode("");
+                                  })
+                            }}>Okay</Button>
                         </div>
                     ): (
                         <div>
@@ -71,6 +110,11 @@ export function BusinessCard({people}){
                                 boxShadow: 3,
                             }} onClick={()=>{
                                 setEditMode(person._id)
+                                setName(person.name);
+                                setDescription(person.description);
+                                setInterests(person.interests);
+                                setLinkedin(person.linkedin);
+                                setTwitter(person.twitter);
                             }}>Update</Button>
                             <Button variant="outlined" sx={{
                                 padding: 1,
