@@ -11,7 +11,11 @@ export function InputDetails() {
   const [linkedin, setLinkedin] = useState("");
   const [twitter, setTwitter] = useState("");
   return (
-    <Box sx={{ width:500, maxWidth: '100%'}}>
+    <Box sx={{
+      margin: "auto",
+      width: "50%",
+      padding: "10px"
+    }}> 
       <TextField fullWidth label="Name" id="name" margin="dense" onChange={(e)=>{
         setName(e.target.value);
       }}/>

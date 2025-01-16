@@ -11,6 +11,7 @@ export function BusinessCard({people}){
   >
     {people.map((person)=>{
         return(
+            <Stack>  
                 <Card variant="outlined" sx={{
                     padding: 4,
                     margin: 2,
@@ -23,7 +24,7 @@ export function BusinessCard({people}){
                     color: "#808080"
                 }}>{person.description}</p>
                 <h2>Interests</h2>
-                <Stack spacing={1}>
+                <Stack spacing={1} sx={{marginBottom: 2}}>
                 {
                     person.interests.map((interest)=>{
                         return(
@@ -34,16 +35,38 @@ export function BusinessCard({people}){
                     })
                 }
                 </Stack>
-                <a href={person.linkedin}>
-                    <Button variant="contained" style={{
-                       
-                        margin: 10
-                    }}>Linkedin</Button>
-                </a>
-                <a href={person.twitter}>
-                    <Button variant="contained">Twitter</Button>
-                </a>
-            </Card>)
+                    <Button variant="contained" href={person.linkedin} sx={{margin: 1}}>Linkedin</Button>
+                    <Button variant="contained" href={person.twitter}>Twitter</Button>
+                </Card>
+                <Button variant="outlined" sx={{
+                    padding: 1,
+                    margin: 1,
+                    borderRadius: 2,
+                    boxShadow: 3,
+                  }} onClick={()=>{
+                    alert("Clicked")
+                  }}>Update</Button>
+                <Button variant="outlined" sx={{
+                    padding: 1,
+                    margin: 1,
+                    borderRadius: 2,
+                    boxShadow: 3,
+                  }} onClick={()=>{
+                    fetch("http://localhost:3000/",{
+                        method: "DELETE",
+                        body: JSON.stringify({ 
+                        id: person._id
+                        }), 
+                        headers: {
+                        "Content-type":"application/json"
+                        }
+                    }).then(async function (res){
+                        const json = await res.json();
+                        alert("Person deleted");
+                    })
+                  }}>Delete</Button>
+            </Stack>)
+
     })
 }
 </Stack>
