@@ -76,7 +76,7 @@ app.post("/signin", async(req, res)=>{
 });
 
 //Create
-app.post("/", userMiddleware, async (req,res)=>{
+app.post("/", async (req,res)=>{
     const validation = validateCreateBody(req.body);
     if(!validation.success){
         return res.status(400).json({
@@ -117,7 +117,7 @@ app.get("/",async (req,res)=>{
 })
 
 //Update
-app.put("/", userMiddleware, async (req,res)=>{
+app.put("/", async (req,res)=>{
     const validation = validateUpdateBody(req.body);
     if(!validation.success){
         return res.status(400).json({
@@ -150,7 +150,7 @@ app.put("/", userMiddleware, async (req,res)=>{
 })
 
 //Delete
-app.delete("/", userMiddleware, async (req,res)=>{
+app.delete("/", async (req,res)=>{
     const validation = validateDeleteBody(req.body);
     if(!validation.success){
         return res.status(400).json({
