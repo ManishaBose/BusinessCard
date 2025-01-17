@@ -76,7 +76,7 @@ app.post("/signin", async(req, res)=>{
 });
 
 //Create
-app.post("/",async (req,res)=>{
+app.post("/", userMiddleware, async (req,res)=>{
     const validation = validateCreateBody(req.body);
     if(!validation.success){
         return res.status(400).json({
