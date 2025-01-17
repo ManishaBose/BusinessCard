@@ -1,9 +1,14 @@
 const express = require('express');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 const { createSchema, updateSchema, deleteSchema, signupSchema } = require('./types');
 const { People, User } = require('./db');
+const { userMiddleware } = require('./userMiddleware');
 const app = express();
 const port = 3000;
+
+dotenv.config();
 
 app.use(express.json());
 app.use(cors());
@@ -44,6 +49,32 @@ app.post("/signup", async(req, res)=>{
         })
     }
 })
+
+//signin
+app.post("/signin", async(req, res)=>{
+    const {username, password} = req.body;
+    try{
+        const user = await User.findOne({
+            username,
+            password
+        })
+        if(!user){
+            return res.status(401).json({
+                message: "Invalid username or password"
+            })
+        }
+        var token = jwt.sign({username}, process.env.JWT_SECRET);
+        return res.status(200).json({
+            token
+        })
+    } catch(e){
+        console.error(e);
+        res.status(500).json({
+            message: "Couldn't signin"
+        })
+    }
+});
+
 //Create
 app.post("/",async (req,res)=>{
     const validation = validateCreateBody(req.body);
@@ -86,7 +117,7 @@ app.get("/",async (req,res)=>{
 })
 
 //Update
-app.put("/",async (req,res)=>{
+app.put("/", userMiddleware, async (req,res)=>{
     const validation = validateUpdateBody(req.body);
     if(!validation.success){
         return res.status(400).json({
@@ -119,7 +150,7 @@ app.put("/",async (req,res)=>{
 })
 
 //Delete
-app.delete("/",async (req,res)=>{
+app.delete("/", userMiddleware, async (req,res)=>{
     const validation = validateDeleteBody(req.body);
     if(!validation.success){
         return res.status(400).json({
