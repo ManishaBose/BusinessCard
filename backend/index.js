@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const { createSchema, updateSchema, deleteSchema } = require('./types');
-const { People } = require('./db');
+const { createSchema, updateSchema, deleteSchema, signupSchema } = require('./types');
+const { People, User } = require('./db');
 const app = express();
 const port = 3000;
 
@@ -17,6 +17,33 @@ function validateUpdateBody(obj){
 function validateDeleteBody(obj){
     return deleteSchema.safeParse(obj);
 }
+function validateSignup(obj){
+    return signupSchema.safeParse(obj);
+}
+//signup
+app.post("/signup", async(req, res)=>{
+    const validation = validateSignup(req.body);
+    if(!validation.success){
+        return res.status(400).json({
+            message: "Invalid input"
+        })
+    }
+    const {username, password} = validation.data;
+    try{
+        await User.create({
+            username, 
+            password
+        })
+        return res.status(200).json({
+            message: "User created successfully"
+        })
+    } catch(e){
+        console.error(e);
+        return res.status(500).json({
+            message: "User couldnot be created"
+        })
+    }
+})
 //Create
 app.post("/",async (req,res)=>{
     const validation = validateCreateBody(req.body);

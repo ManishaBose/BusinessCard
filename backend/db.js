@@ -13,8 +13,15 @@ const peopleSchema = new mongoose.Schema({
     twitter: String
 })
 
+const userSchema = new mongoose.Schema({
+    username: String,
+    password: String
+});
+
 const People = mongoose.model('People',peopleSchema);
+const User = mongoose.model('User',userSchema);
 
 module.exports = {
-    People
+    People,
+    User
 }
