@@ -5,7 +5,7 @@ import { InputDetails } from './Components/InputDetails'
 
 function App() {
   const [people, setPeople] = useState([])
-  fetch("http://localhost:3000/").then(async function(res){
+  fetch("https://businesscard-backend-v4tt.onrender.com").then(async function(res){
     const json = await res.json();
     setPeople(json.people);
   })

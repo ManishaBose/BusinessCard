@@ -84,7 +84,7 @@ export function BusinessCard({people}){
                                 setEditMode("");
                             }}>Cancel</Button>
                             <Button onClick={()=>{
-                                fetch("http://localhost:3000/",{
+                                fetch("https://businesscard-backend-v4tt.onrender.com",{
                                     method: "PUT",
                                     body: JSON.stringify({
                                       id: person._id,
@@ -124,7 +124,7 @@ export function BusinessCard({people}){
                                 borderRadius: 2,
                                 boxShadow: 3,
                             }} onClick={()=>{
-                                fetch("http://localhost:3000/",{
+                                fetch("https://businesscard-backend-v4tt.onrender.com/",{
                                     method: "DELETE",
                                     body: JSON.stringify({ 
                                     id: person._id

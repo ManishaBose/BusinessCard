@@ -36,7 +36,7 @@ export function InputDetails() {
         setTwitter(e.target.value);
       }}/>
       <Button variant="contained" onClick={() => {
-              fetch("http://localhost:3000/",{
+              fetch("https://businesscard-backend-v4tt.onrender.com",{
                 method: "POST",
                 body: JSON.stringify({
                   name,
